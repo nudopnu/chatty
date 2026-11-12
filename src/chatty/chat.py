@@ -24,11 +24,13 @@ class Chat(QObject):
             if self.addr:
                 logger.info(f"Connecting to {self.addr}...")
                 self.socket = network.connect(self.addr)
+                logger.info("Connection successful")
                 self.on_ready.emit(True)
             else:
                 logger.info(f"Waiting for connection...")
                 server_socket = network.serve()
                 self.socket, _ = server_socket.accept()
+                logger.info("Connection successful")
                 self.on_ready.emit(True)
             while True:
                 msg = network.receive(self.socket).decode("utf8")
